@@ -6,6 +6,12 @@ import { FaSearch } from 'react-icons/fa'; // Import magnifying glass icon from 
 
 const FaSearchTyped = FaSearch as () => React.JSX.Element;
 
+const BASE = 'https://mosler-library.toews-api.com:5000';
+const API = {
+  getBooks: `${BASE}/get-books/`,
+  query: `${BASE}/query`
+}
+
 const App: React.FC = () => {
   const [titleQuery, setTitleQuery] = useState<string>('');
   const [authorQuery, setAuthorQuery] = useState<string>('');
@@ -18,13 +24,29 @@ const App: React.FC = () => {
 
   const fetchBooks = async () => {
     try {
-      const response = await axios.get('https://mosler-library.toews-api.com:5000/get-books/');
+      const response = await axios.get(API.getBooks);
       const booksData: Book[] = response.data;
       setAllBooks(booksData);
       return booksData;
     } catch (err) {
       setError('Failed to fetch books data. Please try again.');
       console.error('Error fetching books:', err);
+      return null;
+    }
+  };
+
+  const fetchQuery = async (query: string) => {
+    try {
+      const response = await axios.post(
+        API.query,
+        { prompt: query },
+        { headers: { 'Content-Type': 'application/json' } }
+      );
+      const { book_data, interstitial_texts } = response.data;
+      return { books: book_data as Book[], text: interstitial_texts || [] };
+    } catch (err) {
+      setError('Failed to fetch query results. Please try again.');
+      console.error('Error fetching query:', err);
       return null;
     }
   };
@@ -81,59 +103,27 @@ const App: React.FC = () => {
     }
   };
 
-  const handleFreeformSubmit = (e: React.FormEvent) => {
+  const handleFreeformSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setText([]);
     setBooks([]);
 
-    const SAMPLE_PAYLOAD = {
-      "book_data": [
-        {
-          "Author": "Alice Outwater",
-          "Explanation": "A coming-of-age memoir that explores themes of identity and growth.",
-          "ISBN": "9781250085788",
-          "Shelf": "Stand",
-          "Summary": "A memoir about the author's journey of self-discovery and healing.",
-          "Title": "Wild at Heart"
-        },
-        {
-          "Author": "Barbara Flanagan",
-          "Explanation": "A book that could appeal to fans of adventurous stories.",
-          "ISBN": "9780789309891",
-          "Shelf": "Shelf A1",
-          "Summary": "A guide to houseboating.",
-          "Title": "The Houseboat Book"
-        },
-        {
-          "Author": "Jan-Philipp Sendker",
-          "Explanation": "A novel that deals with themes of identity and growth.",
-          "ISBN": "9781590514634",
-          "Shelf": "Cart",
-          "Summary": "A novel that explores themes of love, family, and identity.",
-          "Title": "The Art of Hearing Heartbeats"
-        }
-      ],
-      "interstitial_texts": [
-        "I couldn't find any books similar to Anne of Green Gables...",
-        "If you're looking for classic coming-of-age stories...",
-        "Other books that might be of interest are..."
-      ],
-      "preface": ""
-    };
-
-    const sortedBooks = [...SAMPLE_PAYLOAD.book_data].sort((a, b) => {
-      if (a.Shelf === b.Shelf) {
-        return a.Title.localeCompare(b.Title);
+    if (freeformQuery) {
+      const result = await fetchQuery(freeformQuery);
+      if (result) {
+        const sortedBooks = [...result.books].sort((a, b) => {
+          if (a.Shelf === b.Shelf) {
+            return a.Title.localeCompare(b.Title);
+          }
+          return a.Shelf.localeCompare(b.Shelf);
+        });
+        setBooks(sortedBooks);
+        setText(result.text);
       }
-      return a.Shelf.localeCompare(b.Shelf);
-    });
-
-    setBooks(sortedBooks);
-    if (SAMPLE_PAYLOAD.interstitial_texts?.length > 0) {
-      setText(SAMPLE_PAYLOAD.interstitial_texts);
     }
   };
+
 
   const groupedBooks = books.reduce((acc, book) => {
     if (!acc[book.Shelf]) {
