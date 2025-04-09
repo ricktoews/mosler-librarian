@@ -21,7 +21,8 @@ const App: React.FC = () => {
   const [text, setText] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [searchMode, setSearchMode] = useState<'both' | 'simple' | 'freeform'>('both');
-  const [isLoading, setIsLoading] = useState<boolean>(false); // New loading state
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [hasSearched, setHasSearched] = useState<boolean>(false);
 
   const fetchBooks = async () => {
     try {
@@ -38,7 +39,7 @@ const App: React.FC = () => {
 
   const fetchQuery = async (query: string) => {
     try {
-      setIsLoading(true); // Start loading
+      setIsLoading(true);
       const response = await axios.post(
         API.query,
         { prompt: query },
@@ -51,7 +52,7 @@ const App: React.FC = () => {
       console.error('Error fetching query:', err);
       return null;
     } finally {
-      setIsLoading(false); // Stop loading, even on error
+      setIsLoading(false);
     }
   };
 
@@ -80,11 +81,38 @@ const App: React.FC = () => {
     }
   };
 
+  const handleTitleAuthorFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    if (hasSearched) {
+      setTitleQuery('');
+      setAuthorQuery('');
+      setHasSearched(false);
+    }
+  };
+
+  const handleFreeformFocus = (e: React.FocusEvent<HTMLTextAreaElement>) => {
+    if (hasSearched) {
+      setFreeformQuery('');
+      setHasSearched(false);
+    }
+  };
+
+  const handleReset = () => {
+    setTitleQuery('');
+    setAuthorQuery('');
+    setFreeformQuery('');
+    setBooks([]);
+    setText([]);
+    setError(null);
+    setSearchMode('both');
+    setHasSearched(false);
+  };
+
   const handleTitleAuthorSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setText([]);
     setBooks([]);
+    setHasSearched(true);
 
     let booksData = allBooks;
     if (!booksData) {
@@ -112,6 +140,7 @@ const App: React.FC = () => {
     setError(null);
     setText([]);
     setBooks([]);
+    setHasSearched(true);
 
     if (freeformQuery) {
       const result = await fetchQuery(freeformQuery);
@@ -149,6 +178,7 @@ const App: React.FC = () => {
               name="title"
               value={titleQuery}
               onChange={handleTitleAuthorChange}
+              onFocus={handleTitleAuthorFocus}
               placeholder="Title"
             />
             <input
@@ -156,6 +186,7 @@ const App: React.FC = () => {
               name="author"
               value={authorQuery}
               onChange={handleTitleAuthorChange}
+              onFocus={handleTitleAuthorFocus}
               placeholder="Author"
             />
             <button type="submit" aria-label="Search">
@@ -167,14 +198,20 @@ const App: React.FC = () => {
             <textarea
               value={freeformQuery}
               onChange={handleFreeformChange}
+              onFocus={handleFreeformFocus}
               placeholder="Ask about our books... (e.g., 'I enjoyed An Unkindness of Magicians for its writing style and magic. What’s similar?')"
               rows={2}
             />
             <button type="submit">Submit</button>
           </form>
         </div>
-        {isLoading && <div className="spinner"></div>} {/* Spinner display */}
+        {isLoading && <div className="spinner"></div>}
         {error && <p className="error">{error}</p>}
+        {hasSearched && books.length === 0 && !isLoading && !error && (
+          <p className="no-results">
+            No books found for "{titleQuery || authorQuery || freeformQuery}". Try a different search!
+          </p>
+        )}
         {text.length > 0 && <div className="interstitial">{text.map((t, n) => <p key={n}>{t}</p>)}</div>}
         {books.length > 0 && (
           <div className="results">
@@ -193,6 +230,11 @@ const App: React.FC = () => {
               </div>
             ))}
           </div>
+        )}
+        {(hasSearched || books.length > 0 || text.length > 0 || error) && (
+          <button className="reset-button" onClick={handleReset}>
+            New Search
+          </button>
         )}
       </div>
     </div>

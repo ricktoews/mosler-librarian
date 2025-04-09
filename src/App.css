@@ -232,3 +232,26 @@
     transform: rotate(360deg);
   }
 }
+
+.no-results {
+  color: #555;
+  text-align: center;
+  margin: 20px 0;
+  font-style: italic;
+}
+
+.reset-button {
+  display: block;
+  margin: 20px auto;
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: #666;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.reset-button:hover {
+  background-color: #888;
+}
