@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
 import { Book } from './types';
-import { FaSearch } from 'react-icons/fa'; // Import magnifying glass icon from react-icons
+import { FaSearch } from 'react-icons/fa';
 
 const FaSearchTyped = FaSearch as () => React.JSX.Element;
 
@@ -10,7 +10,7 @@ const BASE = 'https://mosler-library.toews-api.com:5000';
 const API = {
   getBooks: `${BASE}/get-books/`,
   query: `${BASE}/query`
-}
+};
 
 const App: React.FC = () => {
   const [titleQuery, setTitleQuery] = useState<string>('');
@@ -21,6 +21,7 @@ const App: React.FC = () => {
   const [text, setText] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [searchMode, setSearchMode] = useState<'both' | 'simple' | 'freeform'>('both');
+  const [isLoading, setIsLoading] = useState<boolean>(false); // New loading state
 
   const fetchBooks = async () => {
     try {
@@ -37,6 +38,7 @@ const App: React.FC = () => {
 
   const fetchQuery = async (query: string) => {
     try {
+      setIsLoading(true); // Start loading
       const response = await axios.post(
         API.query,
         { prompt: query },
@@ -48,6 +50,8 @@ const App: React.FC = () => {
       setError('Failed to fetch query results. Please try again.');
       console.error('Error fetching query:', err);
       return null;
+    } finally {
+      setIsLoading(false); // Stop loading, even on error
     }
   };
 
@@ -124,7 +128,6 @@ const App: React.FC = () => {
     }
   };
 
-
   const groupedBooks = books.reduce((acc, book) => {
     if (!acc[book.Shelf]) {
       acc[book.Shelf] = [];
@@ -170,6 +173,7 @@ const App: React.FC = () => {
             <button type="submit">Submit</button>
           </form>
         </div>
+        {isLoading && <div className="spinner"></div>} {/* Spinner display */}
         {error && <p className="error">{error}</p>}
         {text.length > 0 && <div className="interstitial">{text.map((t, n) => <p key={n}>{t}</p>)}</div>}
         {books.length > 0 && (
