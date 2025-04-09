@@ -4,6 +4,8 @@ import './App.css';
 import { Book } from './types';
 import { FaSearch } from 'react-icons/fa'; // Import magnifying glass icon from react-icons
 
+const FaSearchTyped = FaSearch as () => React.JSX.Element;
+
 const App: React.FC = () => {
   const [titleQuery, setTitleQuery] = useState<string>('');
   const [authorQuery, setAuthorQuery] = useState<string>('');
@@ -16,7 +18,7 @@ const App: React.FC = () => {
 
   const fetchBooks = async () => {
     try {
-      const response = await axios.get('http://mosler-library.toews-api.com:5000/get-books/');
+      const response = await axios.get('https://mosler-library.toews-api.com:5000/get-books/');
       const booksData: Book[] = response.data;
       setAllBooks(booksData);
       return booksData;
@@ -164,7 +166,7 @@ const App: React.FC = () => {
               placeholder="Author"
             />
             <button type="submit" aria-label="Search">
-              {(FaSearch as any)()} {/* Type assertion to bypass TS2786 */}
+              <FaSearchTyped />
             </button>
           </form>
           <hr className="search-divider" />
