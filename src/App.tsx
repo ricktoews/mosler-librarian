@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
 import { Book } from './types';
+import { FaSearch } from 'react-icons/fa'; // Import magnifying glass icon from react-icons
 
 const App: React.FC = () => {
   const [titleQuery, setTitleQuery] = useState<string>('');
   const [authorQuery, setAuthorQuery] = useState<string>('');
   const [freeformQuery, setFreeformQuery] = useState<string>('');
   const [books, setBooks] = useState<Book[]>([]);
-  const [allBooks, setAllBooks] = useState<Book[] | null>(null); // Persistent storage for full dataset
+  const [allBooks, setAllBooks] = useState<Book[] | null>(null);
   const [text, setText] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [searchMode, setSearchMode] = useState<'both' | 'simple' | 'freeform'>('both');
@@ -16,7 +17,7 @@ const App: React.FC = () => {
   const fetchBooks = async () => {
     try {
       const response = await axios.get('http://mosler-library.toews-api.com:5000/get-books/');
-      const booksData: Book[] = response.data; // Assuming the response is an array of Book objects
+      const booksData: Book[] = response.data;
       setAllBooks(booksData);
       return booksData;
     } catch (err) {
@@ -57,7 +58,6 @@ const App: React.FC = () => {
     setText([]);
     setBooks([]);
 
-    // Load books data if not already loaded
     let booksData = allBooks;
     if (!booksData) {
       booksData = await fetchBooks();
@@ -85,7 +85,6 @@ const App: React.FC = () => {
     setText([]);
     setBooks([]);
 
-    // For now, this uses SAMPLE_PAYLOAD; later, it’ll hit the /query endpoint
     const SAMPLE_PAYLOAD = {
       "book_data": [
         {
@@ -155,16 +154,18 @@ const App: React.FC = () => {
               name="title"
               value={titleQuery}
               onChange={handleTitleAuthorChange}
-              placeholder="Search by Title"
+              placeholder="Title"
             />
             <input
               type="text"
               name="author"
               value={authorQuery}
               onChange={handleTitleAuthorChange}
-              placeholder="Search by Author"
+              placeholder="Author"
             />
-            <button type="submit">Search</button>
+            <button type="submit" aria-label="Search">
+              {(FaSearch as any)()} {/* Type assertion to bypass TS2786 */}
+            </button>
           </form>
           <hr className="search-divider" />
           <form onSubmit={handleFreeformSubmit} className="freeform-search">
