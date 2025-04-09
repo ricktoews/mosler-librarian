@@ -27,75 +27,137 @@
 }
 
 .search-container {
+  position: relative;
   overflow: hidden;
+  min-height: 180px;
 }
 
-.simple-search,
-.freeform-search {
-  transition: all 0.3s ease;
-}
-
-.search-container.both .simple-search,
-.search-container.both .freeform-search {
-  max-height: 100px;
-  opacity: 1;
-}
-
-.search-container.simple .simple-search {
-  max-height: 100px;
-  opacity: 1;
-}
-
-.search-container.simple .freeform-search {
-  max-height: 0;
-  opacity: 0;
-  margin: 0;
-}
-
-.search-container.freeform .simple-search {
-  max-height: 0;
-  opacity: 0;
-  margin: 0;
-}
-
-.search-container.freeform .freeform-search {
-  max-height: 150px;
-  opacity: 1;
-}
-
-.simple-search {
+.search-form {
   display: flex;
-  gap: 8px;
-  /* Reduced from 10px for tighter fit */
-  margin-bottom: 10px;
-  align-items: center;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.simple-search input {
-  flex: 1;
-  padding: 6px;
-  /* Slightly less padding */
+.search-field {
+  transition: all 0.3s ease;
+  max-height: 100px;
+  opacity: 1;
+}
+
+.search-button {
+  transition: all 0.3s ease;
+  padding: 8px 16px;
   font-size: 16px;
-  /* Increased from 14px to prevent zoom */
-  max-width: 120px;
-  /* Adjusted from 130px to fit larger font */
-}
-
-.simple-search button {
-  padding: 8px;
   background-color: #333;
   color: #fff;
   border: none;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 34px;
+  width: 100%;
+  box-sizing: border-box;
+  position: absolute;
 }
 
-.simple-search button:hover {
+.search-button:hover {
   background-color: #555;
+}
+
+.search-container.all .search-field {
+  max-height: 100px;
+  opacity: 1;
+  position: static;
+}
+
+.search-container.all .title-field,
+.search-container.all .author-field,
+.search-container.all .freeform-field {
+  margin-top: 0;
+}
+
+.search-container.all .search-button {
+  position: static;
+  margin-top: 10px;
+}
+
+/* Title active */
+.search-container.title .title-field {
+  max-height: 100px;
+  opacity: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.search-container.title .author-field,
+.search-container.title .freeform-field {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.search-container.title .search-button {
+  top: 50px;
+  /* Input ~40px + 10px gap */
+}
+
+/* Author active */
+.search-container.author .title-field {
+  max-height: 100px;
+  opacity: 0;
+}
+
+.search-container.author .author-field {
+  max-height: 100px;
+  opacity: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.search-container.author .freeform-field {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.search-container.author .search-button {
+  top: 50px;
+  /* Input ~40px + 10px gap */
+}
+
+/* Freeform active */
+.search-container.freeform .title-field,
+.search-container.freeform .author-field {
+  max-height: 100px;
+  opacity: 0;
+}
+
+.search-container.freeform .freeform-field {
+  max-height: 100px;
+  opacity: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.search-container.freeform .search-button {
+  top: 76px;
+  /* Textarea ~66px + 10px gap */
+}
+
+.search-field input,
+.search-field textarea {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.search-field textarea {
+  resize: vertical;
+  min-height: 50px;
 }
 
 .search-divider {
@@ -105,45 +167,43 @@
   transition: opacity 0.3s ease;
 }
 
-.search-container.simple .search-divider,
+.search-container.title .search-divider,
+.search-container.author .search-divider,
 .search-container.freeform .search-divider {
   opacity: 0;
   max-height: 0;
 }
 
-.freeform-search {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #333;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
 }
 
-.freeform-search textarea {
-  flex: 1;
-  padding: 8px;
-  font-size: 16px;
-  /* Match input size */
-  resize: vertical;
-  min-height: 50px;
-}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
 
-.freeform-search button {
-  padding: 8px 16px;
-  font-size: 16px;
-  /* Consistency */
-  background-color: #333;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-}
-
-.freeform-search button:hover {
-  background-color: #555;
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .error {
   color: red;
   margin-bottom: 20px;
+}
+
+.no-results {
+  color: #555;
+  text-align: center;
+  margin: 20px 0;
+  font-style: italic;
 }
 
 .interstitial {
@@ -194,50 +254,6 @@
   border-bottom: 2px solid #555;
   padding-bottom: 10px;
   margin-bottom: 10px;
-}
-
-/* Media query for small screens */
-@media (max-width: 400px) {
-  .simple-search input {
-    max-width: 100px;
-    /* Adjusted from 110px */
-  }
-
-  .simple-search button {
-    width: 36px;
-    height: 32px;
-  }
-}
-
-/* Spinner styles */
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid #f3f3f3;
-  /* Light gray */
-  border-top: 4px solid #333;
-  /* Dark gray to match buttons */
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: 20px auto;
-  /* Center it */
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.no-results {
-  color: #555;
-  text-align: center;
-  margin: 20px 0;
-  font-style: italic;
 }
 
 .reset-button {

@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
 import { Book } from './types';
-import { FaSearch } from 'react-icons/fa';
-
-const FaSearchTyped = FaSearch as () => React.JSX.Element;
 
 const BASE = 'https://mosler-library.toews-api.com:5000';
 const API = {
@@ -20,7 +17,7 @@ const App: React.FC = () => {
   const [allBooks, setAllBooks] = useState<Book[] | null>(null);
   const [text, setText] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [searchMode, setSearchMode] = useState<'both' | 'simple' | 'freeform'>('both');
+  const [searchMode, setSearchMode] = useState<'all' | 'title' | 'author' | 'freeform'>('all');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasSearched, setHasSearched] = useState<boolean>(false);
 
@@ -56,41 +53,49 @@ const App: React.FC = () => {
     }
   };
 
-  const handleTitleAuthorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    if (name === 'title') setTitleQuery(value);
-    if (name === 'author') setAuthorQuery(value);
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setTitleQuery(value);
+    if (value && searchMode !== 'title') setSearchMode('title');
+    else if (!value && !authorQuery && !freeformQuery) setSearchMode('all');
+  };
 
-    const updatedTitle = name === 'title' ? value : titleQuery;
-    const updatedAuthor = name === 'author' ? value : authorQuery;
-    if (updatedTitle || updatedAuthor) {
-      setSearchMode('simple');
-    } else if (!updatedTitle && !updatedAuthor && !freeformQuery) {
-      setSearchMode('both');
-    }
+  const handleAuthorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setAuthorQuery(value);
+    if (value && searchMode !== 'author') setSearchMode('author');
+    else if (!value && !titleQuery && !freeformQuery) setSearchMode('all');
   };
 
   const handleFreeformChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
     setFreeformQuery(value);
-
-    if (value) {
-      setSearchMode('freeform');
-    } else if (!value && !titleQuery && !authorQuery) {
-      setSearchMode('both');
-    }
+    if (value && searchMode !== 'freeform') setSearchMode('freeform');
+    else if (!value && !titleQuery && !authorQuery) setSearchMode('all');
   };
 
-  const handleTitleAuthorFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+  const handleTitleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
     if (hasSearched) {
       setTitleQuery('');
       setAuthorQuery('');
+      setFreeformQuery('');
+      setHasSearched(false);
+    }
+  };
+
+  const handleAuthorFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    if (hasSearched) {
+      setTitleQuery('');
+      setAuthorQuery('');
+      setFreeformQuery('');
       setHasSearched(false);
     }
   };
 
   const handleFreeformFocus = (e: React.FocusEvent<HTMLTextAreaElement>) => {
     if (hasSearched) {
+      setTitleQuery('');
+      setAuthorQuery('');
       setFreeformQuery('');
       setHasSearched(false);
     }
@@ -103,46 +108,36 @@ const App: React.FC = () => {
     setBooks([]);
     setText([]);
     setError(null);
-    setSearchMode('both');
+    setSearchMode('all');
     setHasSearched(false);
   };
 
-  const handleTitleAuthorSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setText([]);
     setBooks([]);
     setHasSearched(true);
 
-    let booksData = allBooks;
-    if (!booksData) {
-      booksData = await fetchBooks();
-    }
-
-    if (booksData) {
-      const filteredBooks = booksData.filter(book => {
-        const matchesTitle = titleQuery ? book.Title.toLowerCase().includes(titleQuery.toLowerCase()) : true;
-        const matchesAuthor = authorQuery ? book.Author.toLowerCase().includes(authorQuery.toLowerCase()) : true;
-        return matchesTitle && matchesAuthor;
-      }).sort((a, b) => {
-        if (a.Shelf === b.Shelf) {
-          return a.Title.localeCompare(b.Title);
-        }
-        return a.Shelf.localeCompare(b.Shelf);
-      });
-
-      setBooks(filteredBooks);
-    }
-  };
-
-  const handleFreeformSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setText([]);
-    setBooks([]);
-    setHasSearched(true);
-
-    if (freeformQuery) {
+    if (titleQuery || authorQuery) {
+      let booksData = allBooks;
+      if (!booksData) {
+        booksData = await fetchBooks();
+      }
+      if (booksData) {
+        const filteredBooks = booksData.filter(book => {
+          const matchesTitle = titleQuery ? book.Title.toLowerCase().includes(titleQuery.toLowerCase()) : true;
+          const matchesAuthor = authorQuery ? book.Author.toLowerCase().includes(authorQuery.toLowerCase()) : true;
+          return matchesTitle && matchesAuthor;
+        }).sort((a, b) => {
+          if (a.Shelf === b.Shelf) {
+            return a.Title.localeCompare(b.Title);
+          }
+          return a.Shelf.localeCompare(b.Shelf);
+        });
+        setBooks(filteredBooks);
+      }
+    } else if (freeformQuery) {
       const result = await fetchQuery(freeformQuery);
       if (result) {
         const validBooks = result.books.filter(book =>
@@ -176,37 +171,39 @@ const App: React.FC = () => {
       </div>
       <div className="content">
         <div className={`search-container ${searchMode}`}>
-          <form onSubmit={handleTitleAuthorSubmit} className="simple-search">
-            <input
-              type="text"
-              name="title"
-              value={titleQuery}
-              onChange={handleTitleAuthorChange}
-              onFocus={handleTitleAuthorFocus}
-              placeholder="Title"
-            />
-            <input
-              type="text"
-              name="author"
-              value={authorQuery}
-              onChange={handleTitleAuthorChange}
-              onFocus={handleTitleAuthorFocus}
-              placeholder="Author"
-            />
-            <button type="submit" aria-label="Search">
-              <FaSearchTyped />
-            </button>
-          </form>
-          <hr className="search-divider" />
-          <form onSubmit={handleFreeformSubmit} className="freeform-search">
-            <textarea
-              value={freeformQuery}
-              onChange={handleFreeformChange}
-              onFocus={handleFreeformFocus}
-              placeholder="Ask about our books... (e.g., 'I enjoyed An Unkindness of Magicians for its writing style and magic. What’s similar?')"
-              rows={2}
-            />
-            <button type="submit">Submit</button>
+          <form onSubmit={handleSubmit} className="search-form">
+            <div className="search-field title-field">
+              <input
+                type="text"
+                name="title"
+                value={titleQuery}
+                onChange={handleTitleChange}
+                onFocus={handleTitleFocus}
+                placeholder="Title"
+              />
+            </div>
+            <hr className="search-divider" />
+            <div className="search-field author-field">
+              <input
+                type="text"
+                name="author"
+                value={authorQuery}
+                onChange={handleAuthorChange}
+                onFocus={handleAuthorFocus}
+                placeholder="Author"
+              />
+            </div>
+            <hr className="search-divider" />
+            <div className="search-field freeform-field">
+              <textarea
+                value={freeformQuery}
+                onChange={handleFreeformChange}
+                onFocus={handleFreeformFocus}
+                placeholder="Ask about our books... (e.g., 'I enjoyed An Unkindness of Magicians for its writing style and magic. What’s similar?')"
+                rows={2}
+              />
+            </div>
+            <button type="submit" className="search-button">Search</button>
           </form>
         </div>
         {isLoading && <div className="spinner"></div>}
