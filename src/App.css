@@ -41,7 +41,7 @@
   opacity: 1;
 }
 
-.search-container.simple . 정부simple-search {
+.search-container.simple .simple-search {
   max-height: 100px;
   opacity: 1;
 }
@@ -65,18 +65,20 @@
 
 .simple-search {
   display: flex;
-  gap: 10px;
+  gap: 8px;
+  /* Reduced from 10px for tighter fit */
   margin-bottom: 10px;
   align-items: center;
-  /* Vertically align inputs and button */
 }
 
 .simple-search input {
   flex: 1;
-  padding: 8px;
-  font-size: 14px;
-  max-width: 130px;
-  /* Shorten fields for mobile */
+  padding: 6px;
+  /* Slightly less padding */
+  font-size: 16px;
+  /* Increased from 14px to prevent zoom */
+  max-width: 120px;
+  /* Adjusted from 130px to fit larger font */
 }
 
 .simple-search button {
@@ -89,9 +91,7 @@
   align-items: center;
   justify-content: center;
   width: 40px;
-  /* Fixed width for icon button */
   height: 34px;
-  /* Match input height */
 }
 
 .simple-search button:hover {
@@ -121,14 +121,16 @@
 .freeform-search textarea {
   flex: 1;
   padding: 8px;
-  font-size: 14px;
+  font-size: 16px;
+  /* Match input size */
   resize: vertical;
   min-height: 50px;
 }
 
 .freeform-search button {
   padding: 8px 16px;
-  font-size: 14px;
+  font-size: 16px;
+  /* Consistency */
   background-color: #333;
   color: #fff;
   border: none;
@@ -197,13 +199,12 @@
 /* Media query for small screens */
 @media (max-width: 400px) {
   .simple-search input {
-    max-width: 110px;
-    /* Further shorten for very small screens */
+    max-width: 100px;
+    /* Adjusted from 110px */
   }
 
   .simple-search button {
     width: 36px;
-    /* Slightly smaller button */
     height: 32px;
   }
 }
