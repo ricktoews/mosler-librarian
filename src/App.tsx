@@ -229,37 +229,39 @@ const App: React.FC = () => {
       <div className="header">
         <h1>Mosler Lofts Librarian</h1>
       </div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Ask about our books..."
-        />
-        <button type="submit">Submit</button>
-      </form>
-      {error && <p className="error">{error}</p>}
-      {text.length > 0 && <div className="interstitial">{text.map((t, n) => <p key={n}>{t}</p>)}</div>}
-      {books.length > 0 ? (
-        <div className="results">
-          {Object.entries(groupedBooks).map(([shelf, shelfBooks]) => (
-            <div key={shelf} className="shelf-group">
-              <div className="shelf-header">{shelf}</div>
-              <div className="book-list">
-                {shelfBooks.map((book, index) => (
-                  <div key={index} className="book-item">
-                    <div className="book-title">{book.Title}. <span className="book-author">{book.Author}</span></div>
-                    <div className="book-summary">{book.Summary || 'N/A'}</div>
-                    <div className="book-reason">{book.Explanation || 'N/A'}</div>
-                  </div>
-                ))}
+      <div className="content">
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Ask about our books..."
+          />
+          <button type="submit">Submit</button>
+        </form>
+        {error && <p className="error">{error}</p>}
+        {text.length > 0 && <div className="interstitial">{text.map((t, n) => <p key={n}>{t}</p>)}</div>}
+        {books.length > 0 ? (
+          <div className="results">
+            {Object.entries(groupedBooks).map(([shelf, shelfBooks]) => (
+              <div key={shelf} className="shelf-group">
+                <div className="shelf-header">{shelf}</div>
+                <div className="book-list">
+                  {shelfBooks.map((book, index) => (
+                    <div key={index} className="book-item">
+                      <div className="book-title">{book.Title}. <span className="book-author">{book.Author}</span></div>
+                      <div className="book-summary">{book.Summary || 'N/A'}</div>
+                      <div className="book-reason">{book.Explanation || 'N/A'}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p>No books found yet.</p>
-      )}
+            ))}
+          </div>
+        ) : (
+          <p>No books found yet.</p>
+        )}
+      </div>
     </div>
   );
 };
