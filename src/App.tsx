@@ -145,7 +145,11 @@ const App: React.FC = () => {
     if (freeformQuery) {
       const result = await fetchQuery(freeformQuery);
       if (result) {
-        const sortedBooks = [...result.books].sort((a, b) => {
+        const validBooks = result.books.filter(book =>
+          book.Shelf !== undefined && book.Shelf !== null &&
+          book.Title !== undefined && book.Title !== null
+        );
+        const sortedBooks = [...validBooks].sort((a, b) => {
           if (a.Shelf === b.Shelf) {
             return a.Title.localeCompare(b.Title);
           }
