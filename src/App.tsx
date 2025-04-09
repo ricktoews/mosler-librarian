@@ -13,118 +13,6 @@ const SAMPLE_PAYLOAD = {
       "Title": "Wild at Heart"
     },
     {
-      "Author": "Alice Outwater",
-      "Explanation": "A coming-of-age memoir that explores themes of identity and growth.",
-      "ISBN": "9781250085788",
-      "Shelf": "Stand",
-      "Summary": "A memoir about the author's journey of self-discovery and healing.",
-      "Title": "Wild at Heart"
-    },
-    {
-      "Author": "Alice Outwater",
-      "Explanation": "A coming-of-age memoir that explores themes of identity and growth.",
-      "ISBN": "9781250085788",
-      "Shelf": "Stand",
-      "Summary": "A memoir about the author's journey of self-discovery and healing.",
-      "Title": "Wild at Heart"
-    },
-    {
-      "Author": "Alice Outwater",
-      "Explanation": "A coming-of-age memoir that explores themes of identity and growth.",
-      "ISBN": "9781250085788",
-      "Shelf": "Stand",
-      "Summary": "A memoir about the author's journey of self-discovery and healing.",
-      "Title": "Wild at Heart"
-    },
-    {
-      "Author": "Alice Outwater",
-      "Explanation": "A coming-of-age memoir that explores themes of identity and growth.",
-      "ISBN": "9781250085788",
-      "Shelf": "Stand",
-      "Summary": "A memoir about the author's journey of self-discovery and healing.",
-      "Title": "Wild at Heart"
-    },
-    {
-      "Author": "Alice Outwater",
-      "Explanation": "A coming-of-age memoir that explores themes of identity and growth.",
-      "ISBN": "9781250085788",
-      "Shelf": "Stand",
-      "Summary": "A memoir about the author's journey of self-discovery and healing.",
-      "Title": "Wild at Heart"
-    },
-    {
-      "Author": "Alice Outwater",
-      "Explanation": "A coming-of-age memoir that explores themes of identity and growth.",
-      "ISBN": "9781250085788",
-      "Shelf": "Stand",
-      "Summary": "A memoir about the author's journey of self-discovery and healing.",
-      "Title": "Wild at Heart"
-    },
-    {
-      "Author": "Barbara Flanagan",
-      "Explanation": "A book that could appeal to fans of adventurous stories.",
-      "ISBN": "9780789309891",
-      "Shelf": "Shelf A1",
-      "Summary": "A guide to houseboating.",
-      "Title": "The Houseboat Book"
-    },
-    {
-      "Author": "Barbara Flanagan",
-      "Explanation": "A book that could appeal to fans of adventurous stories.",
-      "ISBN": "9780789309891",
-      "Shelf": "Shelf A1",
-      "Summary": "A guide to houseboating.",
-      "Title": "The Houseboat Book"
-    },
-    {
-      "Author": "Barbara Flanagan",
-      "Explanation": "A book that could appeal to fans of adventurous stories.",
-      "ISBN": "9780789309891",
-      "Shelf": "Shelf A1",
-      "Summary": "A guide to houseboating.",
-      "Title": "The Houseboat Book"
-    },
-    {
-      "Author": "Barbara Flanagan",
-      "Explanation": "A book that could appeal to fans of adventurous stories.",
-      "ISBN": "9780789309891",
-      "Shelf": "Shelf A1",
-      "Summary": "A guide to houseboating.",
-      "Title": "The Houseboat Book"
-    },
-    {
-      "Author": "Barbara Flanagan",
-      "Explanation": "A book that could appeal to fans of adventurous stories.",
-      "ISBN": "9780789309891",
-      "Shelf": "Shelf A1",
-      "Summary": "A guide to houseboating.",
-      "Title": "The Houseboat Book"
-    },
-    {
-      "Author": "Barbara Flanagan",
-      "Explanation": "A book that could appeal to fans of adventurous stories.",
-      "ISBN": "9780789309891",
-      "Shelf": "Shelf A1",
-      "Summary": "A guide to houseboating.",
-      "Title": "The Houseboat Book"
-    },
-    {
-      "Author": "Barbara Flanagan",
-      "Explanation": "A book that could appeal to fans of adventurous stories.",
-      "ISBN": "9780789309891",
-      "Shelf": "Shelf A1",
-      "Summary": "A guide to houseboating.",
-      "Title": "The Houseboat Book"
-    },
-    {
-      "Author": "Barbara Flanagan",
-      "Explanation": "A book that could appeal to fans of adventurous stories.",
-      "ISBN": "9780789309891",
-      "Shelf": "Shelf A1",
-      "Summary": "A guide to houseboating.",
-      "Title": "The Houseboat Book"
-    },
-    {
       "Author": "Barbara Flanagan",
       "Explanation": "A book that could appeal to fans of adventurous stories.",
       "ISBN": "9780789309891",
@@ -139,47 +27,7 @@ const SAMPLE_PAYLOAD = {
       "Shelf": "Cart",
       "Summary": "A novel that explores themes of love, family, and identity.",
       "Title": "The Art of Hearing Heartbeats"
-    },
-    {
-      "Author": "Jan-Philipp Sendker",
-      "Explanation": "A novel that deals with themes of identity and growth.",
-      "ISBN": "9781590514634",
-      "Shelf": "Cart",
-      "Summary": "A novel that explores themes of love, family, and identity.",
-      "Title": "The Art of Hearing Heartbeats"
-    },
-    {
-      "Author": "Jan-Philipp Sendker",
-      "Explanation": "A novel that deals with themes of identity and growth.",
-      "ISBN": "9781590514634",
-      "Shelf": "Cart",
-      "Summary": "A novel that explores themes of love, family, and identity.",
-      "Title": "The Art of Hearing Heartbeats"
-    },
-    {
-      "Author": "Jan-Philipp Sendker",
-      "Explanation": "A novel that deals with themes of identity and growth.",
-      "ISBN": "9781590514634",
-      "Shelf": "Cart",
-      "Summary": "A novel that explores themes of love, family, and identity.",
-      "Title": "The Art of Hearing Heartbeats"
-    },
-    {
-      "Author": "Jan-Philipp Sendker",
-      "Explanation": "A novel that deals with themes of identity and growth.",
-      "ISBN": "9781590514634",
-      "Shelf": "Cart",
-      "Summary": "A novel that explores themes of love, family, and identity.",
-      "Title": "The Art of Hearing Heartbeats"
-    },
-    {
-      "Author": "Jan-Philipp Sendker",
-      "Explanation": "A novel that deals with themes of identity and growth.",
-      "ISBN": "9781590514634",
-      "Shelf": "Cart",
-      "Summary": "A novel that explores themes of love, family, and identity.",
-      "Title": "The Art of Hearing Heartbeats"
-    },
+    }
   ],
   "interstitial_texts": [
     "I couldn't find any books similar to Anne of Green Gables or the series itself in the Mosler Lofts Library list. However, I can suggest some alternative books that might be of interest.",
@@ -190,18 +38,66 @@ const SAMPLE_PAYLOAD = {
 };
 
 const App: React.FC = () => {
-  const [query, setQuery] = useState<string>('');
+  const [titleQuery, setTitleQuery] = useState<string>('');
+  const [authorQuery, setAuthorQuery] = useState<string>('');
+  const [freeformQuery, setFreeformQuery] = useState<string>('');
   const [books, setBooks] = useState<Book[]>([]);
   const [text, setText] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [searchMode, setSearchMode] = useState<'both' | 'simple' | 'freeform'>('both');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleTitleAuthorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (name === 'title') setTitleQuery(value);
+    if (name === 'author') setAuthorQuery(value);
+
+    // Check all fields after the update
+    const updatedTitle = name === 'title' ? value : titleQuery;
+    const updatedAuthor = name === 'author' ? value : authorQuery;
+    if (updatedTitle || updatedAuthor) {
+      setSearchMode('simple');
+    } else if (!updatedTitle && !updatedAuthor && !freeformQuery) {
+      setSearchMode('both');
+    }
+  };
+
+  const handleFreeformChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    setFreeformQuery(value);
+
+    if (value) {
+      setSearchMode('freeform');
+    } else if (!value && !titleQuery && !authorQuery) {
+      setSearchMode('both');
+    }
+  };
+
+  const handleTitleAuthorSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setText([]);
     setBooks([]);
 
-    // Sort books by Shelf, then Title
+    const filteredBooks = SAMPLE_PAYLOAD.book_data.filter(book => {
+      const matchesTitle = titleQuery ? book.Title.toLowerCase().includes(titleQuery.toLowerCase()) : true;
+      const matchesAuthor = authorQuery ? book.Author.toLowerCase().includes(authorQuery.toLowerCase()) : true;
+      return matchesTitle && matchesAuthor;
+    }).sort((a, b) => {
+      if (a.Shelf === b.Shelf) {
+        return a.Title.localeCompare(b.Title);
+      }
+      return a.Shelf.localeCompare(b.Shelf);
+    });
+
+    setBooks(filteredBooks);
+  };
+
+  const handleFreeformSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setText([]);
+    setBooks([]);
+
     const sortedBooks = [...SAMPLE_PAYLOAD.book_data].sort((a, b) => {
       if (a.Shelf === b.Shelf) {
         return a.Title.localeCompare(b.Title);
@@ -215,7 +111,6 @@ const App: React.FC = () => {
     }
   };
 
-  // Group books by shelf for rendering
   const groupedBooks = books.reduce((acc, book) => {
     if (!acc[book.Shelf]) {
       acc[book.Shelf] = [];
@@ -230,18 +125,38 @@ const App: React.FC = () => {
         <h1>Mosler Lofts Librarian</h1>
       </div>
       <div className="content">
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Ask about our books..."
-          />
-          <button type="submit">Submit</button>
-        </form>
+        <div className={`search-container ${searchMode}`}>
+          <form onSubmit={handleTitleAuthorSubmit} className="simple-search">
+            <input
+              type="text"
+              name="title"
+              value={titleQuery}
+              onChange={handleTitleAuthorChange}
+              placeholder="Search by Title"
+            />
+            <input
+              type="text"
+              name="author"
+              value={authorQuery}
+              onChange={handleTitleAuthorChange}
+              placeholder="Search by Author"
+            />
+            <button type="submit">Search</button>
+          </form>
+          <hr className="search-divider" />
+          <form onSubmit={handleFreeformSubmit} className="freeform-search">
+            <textarea
+              value={freeformQuery}
+              onChange={handleFreeformChange}
+              placeholder="Ask about our books... (e.g., 'I enjoyed An Unkindness of Magicians for its writing style and magic. What’s similar?')"
+              rows={2}
+            />
+            <button type="submit">Submit</button>
+          </form>
+        </div>
         {error && <p className="error">{error}</p>}
         {text.length > 0 && <div className="interstitial">{text.map((t, n) => <p key={n}>{t}</p>)}</div>}
-        {books.length > 0 ? (
+        {books.length > 0 && (
           <div className="results">
             {Object.entries(groupedBooks).map(([shelf, shelfBooks]) => (
               <div key={shelf} className="shelf-group">
@@ -258,8 +173,6 @@ const App: React.FC = () => {
               </div>
             ))}
           </div>
-        ) : (
-          <p>No books found yet.</p>
         )}
       </div>
     </div>

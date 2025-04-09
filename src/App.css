@@ -13,12 +13,11 @@
   background-color: #000;
   text-align: center;
   padding: 10px 0;
-  /* Minimal vertical space */
   margin-bottom: 20px;
 }
 
 .header h1 {
-  color: #fff;
+  color: # teasfff;
   font-family: 'Futura', sans-serif;
   font-size: 16px;
   font-weight: 400;
@@ -27,16 +26,86 @@
   margin: 0;
 }
 
-form {
+.search-container {
+  overflow: hidden;
+  /* Prevents content overflow during transitions */
+}
+
+.simple-search,
+.freeform-search {
+  transition: all 0.3s ease;
+  /* Smooth transition for height and opacity */
+}
+
+.search-container.both .simple-search,
+.search-container.both .freeform-search {
+  max-height: 100px;
+  /* Arbitrary large value to ensure it’s fully visible */
+  opacity: 1;
+}
+
+.search-container.simple .simple-search {
+  max-height: 100px;
+  opacity: 1;
+}
+
+.search-container.simple .freeform-search {
+  max-height: 0;
+  opacity: 0;
+  margin: 0;
+  /* Collapses spacing */
+}
+
+.search-container.freeform .simple-search {
+  max-height: 0;
+  opacity: 0;
+  margin: 0;
+}
+
+.search-container.freeform .freeform-search {
+  max-height: 150px;
+  /* Adjust based on textarea height + button */
+  opacity: 1;
+}
+
+.simple-search {
   display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.simple-search input {
+  flex: 1;
+  padding: 8px;
+  font-size: 14px;
+}
+
+.search-divider {
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 10px 0;
+  transition: opacity 0.3s ease;
+}
+
+.search-container.simple .search-divider,
+.search-container.freeform .search-divider {
+  opacity: 0;
+  max-height: 0;
+}
+
+.freeform-search {
+  display: flex;
+  flex-direction: column;
   gap: 10px;
   margin-bottom: 20px;
 }
 
-input {
+.freeform-search textarea {
   flex: 1;
   padding: 8px;
   font-size: 14px;
+  resize: vertical;
+  min-height: 50px;
 }
 
 button {
@@ -71,11 +140,9 @@ button:hover {
 
 .shelf-header {
   background-color: #f0f0f0;
-  /* Light gray background */
   padding: 8px;
   font-weight: bold;
   border-bottom: 1px solid #d0d0d0;
-  /* Slightly darker gray border */
   position: sticky;
   top: 0;
   z-index: 1;
@@ -104,9 +171,7 @@ button:hover {
 .book-reason {
   font-size: 12px;
   color: #555;
-  /* Dark gray */
   border-bottom: 2px solid #555;
-  /* Dark gray border */
   padding-bottom: 10px;
   margin-bottom: 10px;
 }
