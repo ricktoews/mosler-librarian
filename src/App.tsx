@@ -164,10 +164,23 @@ const App: React.FC = () => {
     return acc;
   }, {} as { [key: string]: Book[] });
 
+  const getResultLabel = () => {
+    if (searchMode === 'title' && titleQuery) return `Results for Title: "${titleQuery}"`;
+    if (searchMode === 'author' && authorQuery) return `Results for Author: "${authorQuery}"`;
+    if (searchMode === 'freeform' && freeformQuery) return `Results for Query: "${freeformQuery}"`;
+    if (titleQuery && authorQuery) return `Results for Title: "${titleQuery}" and Author: "${authorQuery}"`;
+    return '';
+  };
+
   return (
     <div className="App">
       <div className="header">
         <h1>Mosler Lofts Librarian</h1>
+        {(hasSearched || books.length > 0 || text.length > 0 || error) && (
+          <button className="reset-button" onClick={handleReset}>
+            New Search
+          </button>
+        )}
       </div>
       <div className="content">
         <div className={`search-container ${searchMode}`}>
@@ -205,38 +218,34 @@ const App: React.FC = () => {
             </div>
             <button type="submit" className="search-button">Search</button>
           </form>
-        </div>
-        {isLoading && <div className="spinner"></div>}
-        {error && <p className="error">{error}</p>}
-        {hasSearched && books.length === 0 && !isLoading && !error && (
-          <p className="no-results">
-            No books found for "{titleQuery || authorQuery || freeformQuery}". Try a different search!
-          </p>
-        )}
-        {text.length > 0 && <div className="interstitial">{text.map((t, n) => <p key={n}>{t}</p>)}</div>}
-        {books.length > 0 && (
-          <div className="results">
-            {Object.entries(groupedBooks).map(([shelf, shelfBooks]) => (
-              <div key={shelf} className="shelf-group">
-                <div className="shelf-header">{shelf}</div>
-                <div className="book-list">
-                  {shelfBooks.map((book, index) => (
-                    <div key={index} className="book-item">
-                      <div className="book-title">{book.Title}. <span className="book-author">{book.Author}</span></div>
-                      <div className="book-summary">{book.Summary || 'N/A'}</div>
-                      <div className="book-reason">{book.Explanation || 'N/A'}</div>
-                    </div>
-                  ))}
+          {isLoading && <div className="spinner"></div>}
+          {error && <p className="error">{error}</p>}
+          {hasSearched && books.length === 0 && !isLoading && !error && (
+            <p className="no-results">
+              No books found for "{titleQuery || authorQuery || freeformQuery}". Try a different search!
+            </p>
+          )}
+          {text.length > 0 && <div className="interstitial">{text.map((t, n) => <p key={n}>{t}</p>)}</div>}
+          {books.length > 0 && (
+            <div className="results">
+              <p className="result-label">{getResultLabel()}</p>
+              {Object.entries(groupedBooks).map(([shelf, shelfBooks]) => (
+                <div key={shelf} className="shelf-group">
+                  <div className="shelf-header">{shelf}</div>
+                  <div className="book-list">
+                    {shelfBooks.map((book, index) => (
+                      <div key={index} className="book-item">
+                        <div className="book-title">{book.Title}. <span className="book-author">{book.Author}</span></div>
+                        <div className="book-summary">{book.Summary || 'N/A'}</div>
+                        <div className="book-reason">{book.Explanation || 'N/A'}</div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
-        {(hasSearched || books.length > 0 || text.length > 0 || error) && (
-          <button className="reset-button" onClick={handleReset}>
-            New Search
-          </button>
-        )}
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
