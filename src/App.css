@@ -288,7 +288,7 @@
   font-weight: bold;
   border-bottom: 1px solid #d0d0d0;
   position: sticky;
-  top: 48px;
+  top: 64px;
   /* Adjusted to ~40px masthead height */
   z-index: 1;
 }
